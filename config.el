@@ -35,6 +35,10 @@
       evil-escape-key-sequence "kj")
 
 
+
+(after! envrc
+  (setq envrc-global-mode 1))
+
 (after! yasnippet
   (add-hook 'yas-minor-mode-hook
     (lambda ()
@@ -58,13 +62,25 @@
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.pytest_cache\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.expo\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.log\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.clj-kondo\\'")
 
   ;; Fix potential lockups
   ;; https://github.com/hlissner/doom-emacs/issues/4093
   (setq! ;; lsp-enable-file-watchers nil
          ;; +format-with-lsp causes problems with undo in web-mode,
          ;; could also do (setq-hook! 'web-mode-hook +format-with-lsp nil)
-         +format-with-lsp nil))
+   +format-with-lsp nil
+   lsp-before-save-edits nil))
+
+(after! sql
+  (set-popup-rule! "^\*SQL" :ignore t)
+  (setq sql-debug-send t
+        sql-send-terminator t)
+  )
+
+(after! ejc-sql
+  (setq clomacs-httpd-default-port 8090) ; Use a port other than 8080.
+  )
 
 (after! eglot
   (add-to-list 'eglot-server-programs
@@ -98,7 +114,8 @@
       :nv "j w" 'evil-avy-goto-word-1
 
       ;; Spacemacs style window jumping
-      :g "0" 'winum-select-window-0-or-10
+      ;; :g "0" 'winum-select-window-0-or-10
+      :g "0" 'treemacs-select-window
       :g "1" 'winum-select-window-1
       :g "2" 'winum-select-window-2
       :g "3" 'winum-select-window-3
@@ -123,11 +140,15 @@
       :nv "o f" nil
 
       :nv "b x" 'doom/switch-to-scratch-buffer
-      :nv "b s" 'doom/switch-to-scratch-buffer
-      )
+      :nv "b s" 'doom/switch-to-scratch-buffer)
+
 
 (map! :map prog-mode-map
       :i [tab] 'company-indent-or-complete-common)
+
+
+(map! :map vterm-mode-map
+      :i [tab] 'vterm-send-tab)
 
 (after! magit
   :config
@@ -166,8 +187,8 @@
           (progn
             (switch-to-buffer vterm-buffer-name)
             (evil-insert-state 1))
-        (vterm vterm-buffer-name))
-      )))
+        (vterm vterm-buffer-name)))))
+
 
 (map!
  :leader
@@ -187,11 +208,44 @@
   ;; Doom hides the modeline for vterm by default
   (remove-hook 'vterm-mode-hook #'hide-mode-line-mode))
 
+
+(after! graphql-mode
+  :config
+  (add-hook 'graphql-mode-hook #'prettier-js-mode))
+
+(after! clojure
+  :config
+  (add-hook 'clojure-mode-hook (lambda ()
+                                 (setq lsp-ui-mode nil))))
+
+(add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
+(add-hook 'lisp-mode-hook #'evil-cleverparens-mode)
+(add-hook 'evil-cleverparens-mode-hook #'smartparens-strict-mode)
+(use-package! nvm
+  :config
+  ;; Load the project .nvmrc when the project is switched
+  (add-hook 'projectile-after-switch-project-hook
+            (lambda ()
+              (let ((filename (f-expand ".nvmrc" (projectile-project-root))))
+                (when (f-exists-p filename)
+                  (nvm-use-for filename))))))
 (after! lsp-python-ms
   (set-lsp-priority! 'mspyls 1))
 
 
 (custom-theme-set-faces! 'doom-one-light
   '(font-lock-function-name-face :foreground "steelblue")
-  '(font-lock-variable-name-face :foreground "steelblue4"))
+  '(font-lock-variable-name-face :foreground "steelblue4")
+  ;; Ivy matches, especially with preescient mode is too noisy
+  '(ivy-minibuffer-match-highlight :foreground nil :background "lightsteelblue1" :weight semi-bold)
+  '(ivy-minibuffer-match-face-1 :foreground nil :background "lightsteelblue1" :weight semi-bold)
+  '(ivy-minibuffer-match-face-2 :foreground nil :background "lightsteelblue1" :weight semi-bold)
+  '(ivy-minibuffer-match-face-3 :foreground nil :background "lightsteelblue1" :weight semi-bold)
+  '(ivy-minibuffer-match-face-4 :foreground nil :background "lightsteelblue1" :weight semi-bold)
+  ;; The parenthesis face is provided by https://github.com/tarsius/paren-face
+  '(parenthesis :foreground "darkgrey")
 
+  ;; Fix output of some commands (e.g. graphql-codegen errors) where the text
+  ;; color matches the background color. I'm not sure why setting the background
+  ;; here fixes the font color
+  '(vterm-color-black :background "dark-grey"))

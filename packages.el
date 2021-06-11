@@ -13,3 +13,7 @@
 (package! blacken)
 ;; Fix issue with newline-and-indent in (web-mode-point-context) for tsx files
 (package! web-mode :pin "a3ce21f795e03c7a5489a24b2b3c4fce2d7a2f59")
+(package! parinfer)
+(package! paren-face :recipe (:host github :repo "tarsius/paren-face"))
+(package! evil-cleverparens)
+(package! nvm :recipe (:host github :repo "rejeep/nvm.el"))
