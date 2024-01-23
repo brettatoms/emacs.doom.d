@@ -1,41 +1,55 @@
 ;;; init.el -*- lexical-binding: t; -*-
 ;; Copy me to ~/.doom.d/init.el or ~/.config/doom/init.el, then edit me!
 
-(doom!
-       :completion
+(doom! :completion
        (company           ; the ultimate code completion backend
-        +childframe)
+        ;; +childframe
+        +tng)
+
        ;;helm             ; the *other* search engine for love and life
        ;;ido              ; the other *other* search engine...
-       (ivy              ; a search engine for love and life
+       ;; (ivy              ; a search engine for love and life
+       ;;  +icons
+       ;;  ; +childframe
+       ;;  +fuzzy
+       ;;  ;; +prescient
+       ;;  )
+       (vertico
         +icons
         )
 
        :ui
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       doom-dashboard    ; a nifty splash screen for Emacs
+       ;; doom-dashboard    ; a nifty splash screen for Emacs
        ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       ;;fill-column       ; a `fill-column' indicator
+       ;;(emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE tags
+       ;;hydra
        ;;indent-guides     ; highlighted indent columns
+       ;;ligatures         ; ligatures and symbols to make your code pretty again
+       ;;minimap           ; show a map of the code on the side
        (modeline          ; snazzy, Atom-inspired modeline, plus API
         ;; +light
         )
+
        nav-flash         ; blink the current line after jumping
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; display visual hints when editing in evil
        (popup            ; tame sudden yet inevitable temporary windows
-        +all             ; catch all popups that start with an asterix
-        +defaults)       ; default popup rules
-       ;;pretty-code       ; replace bits of code with pretty symbols
-       ;;tabs            ; FIXME an (incomplete) tab bar for Emacs
+        ;; +all             ; catch all popups that start with an asterix
+        +defaults
+        )       ; default popup rules
+       ;;tabs              ; a tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
-       ;;unicode           ; extended unicode support for various languages
-       ;; vc-gutter         ; vcs diff in the fringe
+       unicode           ; extended unicode support for various languages
+       (vc-gutter         ; vcs diff in the fringe
+        +diff-hl
+        +pretty)
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        (window-select +numbers)    ; visually switch windows
        ;; workspaces        ; tab emulation, persistence & separate workspaces
+       ;;zen               ; distraction-free coding or writing
 
        :editor
        (evil             ; come to the dark side, we have cookies
@@ -43,39 +57,39 @@
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format +onsave)  ; automated prettiness
-       ;;lispy             ; vim for lisp, for people who dont like vim
+       ;;god               ; run Emacs commands without modifier keys
+       ;; lispy             ; vim for lisp, for people who dont like vim
        multiple-cursors  ; editing in many places at once
-       ;;parinfer          ; turn lisp into python, sort of
+       ;; (parinfer          ; turn lisp into python, sort of
+       ;;  +rust)
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
        (dired            ; making dired pretty [functional]
-       ;;+ranger         ; bringing the goodness of ranger to dired
-        +icons          ; colorful icons for dired-mode
-        )
-
+        +ranger         ; bringing the goodness of ranger to dired
+        +icons)          ; colorful icons for dired-mode
        electric          ; smarter, keyword-based electric-indent
-       ;;eshell            ; a consistent, cross-platform shell (WIP)
-       ;; imenu             ; an imenu sidebar and searchable code index
-       ;;term              ; terminals in Emacs
-       ;; undo              ; persistent, smarter undo for your inevitable mistakes
+       ;;ibuffer         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       ;;eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
 
        :checkers
        (syntax              ; tasing you for every semicolon you forget
-        +childframe
-        )
+        +childframe)
        ;;spell             ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
-       ;;
-
-       :os
-       macos
 
        :tools
        ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        direnv
        docker
