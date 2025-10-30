@@ -146,24 +146,24 @@
 ;;   :config
 ;;   (sml/setup))
 
-(use-package! mini-modeline
-  :after (smart-mode-line)
-  :config
-  (setq mini-modeline-mode t
-        mini-modeline-display-gui-line nil
-        mini-modeline-enhance-visual t
-        ;; Hide minior modes from the mini modeline
-        rm-whitelist ""
-        mini-modeline-face-attr '(:background "gray95"))
+;; (use-package! mini-modeline
+;;   :after (smart-mode-line)
+;;   :config
+;;   (setq mini-modeline-mode t
+;;         mini-modeline-display-gui-line nil
+;;         mini-modeline-enhance-visual t
+;;         ;; Hide minior modes from the mini modeline
+;;         rm-whitelist ""
+;;         mini-modeline-face-attr '(:background "gray95"))
 
-  ;; (setq rm-blacklist ""
-  ;;       ;; (format "^ \\(%s\\)$"
-  ;;       ;;         (mapconcat #'identity
-  ;;       ;;                    '("Fly.*" "Projectile.*" "PgLn" "ws" "Minimode" "WK" "better-jumper" "EGkj" "snipe"
-  ;;       ;;                      "GCMH" "wb" "DirCfg" "yas" "envrc[none]" "SP" "Outl" "ElDoc" "Apheleia")
-  ;;       ;;                    "\\|"))
-  ;;       )
-  )
+;; (setq rm-blacklist ""
+;;       ;; (format "^ \\(%s\\)$"
+;;       ;;         (mapconcat #'identity
+;;       ;;                    '("Fly.*" "Projectile.*" "PgLn" "ws" "Minimode" "WK" "better-jumper" "EGkj" "snipe"
+;;       ;;                      "GCMH" "wb" "DirCfg" "yas" "envrc[none]" "SP" "Outl" "ElDoc" "Apheleia")
+;;       ;;                    "\\|"))
+;;       )
+;;)
 
 (use-package! modus-themes
   :config
@@ -270,15 +270,16 @@
   (pendant-setup-key-bindings)
   (banzai-at-work-setup-key-bindings))
 
-;; (use-package! doom-modeline
-;;   ;; :defer t
-;;   :config
-;;   (setq! doom-modeline-lsp nil
-;;          doom-modeline-time nil ;; Not necessary since doom-modeline respects display-time-mode
-;;          ;; doom-modeline-height 20 ;; This gets overridden by the char size
-;;          doom-modeline-repl nil
-;;          doom-modeline-debug nil
-;;          all-the-icons-scale-factor 1.1))
+(use-package! doom-modeline
+  ;; :defer t
+  :config
+  (setq! doom-modeline-lsp nil
+         doom-modeline-time nil ;; Not necessary since doom-modeline respects display-time-mode
+         doom-modeline-height 20 ;; This gets overridden by the char size
+         doom-modeline-repl nil
+         doom-modeline-debug nil
+         ;; all-the-icons-scale-factor 1.1
+         ))
 
 (use-package! org
   :config
