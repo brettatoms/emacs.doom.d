@@ -263,8 +263,12 @@
 (use-package! ba
   :load-path doom-user-dir)
 
-(use-package! pendant
-  :load-path doom-user-dir)
+(use-package! banzai
+  :load-path doom-user-dir
+  :config
+  (add-hook 'after-save-hook 'auto-eval-sql-clj-on-hug-sql-edit)
+  (pendant-setup-key-bindings)
+  (banzai-at-work-setup-key-bindings))
 
 ;; (use-package! doom-modeline
 ;;   ;; :defer t
