@@ -35,10 +35,10 @@
   :recipe (:host github
            :repo "manzaltu/claude-code-ide.el"))
 
-(package! eca
-  :recipe (:host github
-           :repo "editor-code-assistant/eca-emacs"
-           :files ("*.el")))
+;; (package! eca
+;;   :recipe (:host github
+;;            :repo "editor-code-assistant/eca-emacs"
+;;            :files ("*.el")))
 
 (package! eat
   :recipe (:host codeberg
@@ -49,10 +49,10 @@
 (package! transient :pin "053d56e4de2dd78bf32f7af7ed5f289a91cdb6ac")
 (package! magit :pin "b828afbb4b45641998fb6483a08effb1efb214e1")
 
-(package! mini-modeline
-  :recipe (:host github
-           :repo "kiennq/emacs-mini-modeline"))
+;; (package! mini-modeline
+;;   :recipe (:host github
+;;            :repo "kiennq/emacs-mini-modeline"))
 
-(package! smart-mode-line
-  :recipe (:host github
-           :repo "Malabarba/smart-mode-line"))
+;; (package! smart-mode-line
+;;   :recipe (:host github
+;;            :repo "Malabarba/smart-mode-line"))
