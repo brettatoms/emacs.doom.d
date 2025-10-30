@@ -664,17 +664,11 @@ See URL `http://pypi.python.org/pypi/ruff'."
   (cider-enable-nrepl-jvmti-agent t "Start JVM with -Djdk.attach.allowAttachSelf")
   (cider-download-java-sources t)
   :config
-  (map! :leader
-        :map cider-mode-map
-        :n "r p r" 'pendant-reset
-        :n "r p s" 'pendant-stop
-        :n "r p g" 'pendant-go
-        :n "r p R" 'pendant-stop-and-go))
-
-;; (after! cider
-;;   (set-keymap-parent clojure-ts-mode-map clojure-mode-map)
-;;   (set-keymap-parent clojure-ts-clojurescript-mode-map clojurescript-mode-map)
-;;   (set-keymap-parent clojure-ts-clojurec-mode-map clojurec-mode-map))
+  ;; (after! cider
+  ;;   (set-keymap-parent clojure-ts-mode-map clojure-mode-map)
+  ;;   (set-keymap-parent clojure-ts-clojurescript-mode-map clojurescript-mode-map)
+  ;;   (set-keymap-parent clojure-ts-clojurec-mode-map clojurec-mode-map))
+  )
 
 (use-package! evil-cleverparens
   ;; :defer t
