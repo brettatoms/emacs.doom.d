@@ -29,9 +29,10 @@
         mac-option-modifier 'meta)))
 
 (setq! doom-font "CommitMono:size=18"
-       doom-theme 'modus-operandi
+       ;; doom-theme 'modus-operandi
        inhibit-startup-screen t
        doom-localleader-key ","
+       doom-snippets-dir (expand-file-name "~/emacs/snippets")
 
        ;; Disable workspace switching for projects to allow us to have files open
        ;; from different projects in the same frame.
@@ -139,195 +140,155 @@
 
       :nv "r s" 'replace-string
       :nv "r r" 'replace-string
-      :nv "r q" 'query-replace)
+      :nv "r q" 'query-replace
 
+      :nv "f o" 'ba/xdg-open)
 
-;; (use-package! smart-mode-line
-;;   :config
-;;   (sml/setup))
-
-;; (use-package! mini-modeline
-;;   :after (smart-mode-line)
-;;   :config
-;;   (setq mini-modeline-mode t
-;;         mini-modeline-display-gui-line nil
-;;         mini-modeline-enhance-visual t
-;;         ;; Hide minior modes from the mini modeline
-;;         rm-whitelist ""
-;;         mini-modeline-face-attr '(:background "gray95"))
-
-;; (setq rm-blacklist ""
-;;       ;; (format "^ \\(%s\\)$"
-;;       ;;         (mapconcat #'identity
-;;       ;;                    '("Fly.*" "Projectile.*" "PgLn" "ws" "Minimode" "WK" "better-jumper" "EGkj" "snipe"
-;;       ;;                      "GCMH" "wb" "DirCfg" "yas" "envrc[none]" "SP" "Outl" "ElDoc" "Apheleia")
-;;       ;;                    "\\|"))
-;;       )
-;;)
-
-(use-package! modus-themes
+(after! modus-themes
   :config
-  (setq! modus-themes-custom-auto-reload t
-         modus-operandi-palette-overrides '((bg-main "gray98")
-                                            (fg-main "gray10")
-                                            (bg-hl-line "azure2")
-                                            (bg-region "gray90")
-                                            (fg-region :inherit)
-                                            (comment "gray50")
-                                            ;; (clojure-ts-keyword-face red)
-                                            ;; (comment red)
-                                            (fl-keyword maroon))
-         modus-themes-common-palette-overrides `(;; From the section "Make the mode line borderless"
-                                                 ;; (border-mode-line-active unspecified)
-                                                 ;; (border-mode-line-inactive unspecified)
-                                                 (border-mode-line-active bg-mode-line-active)
+  ;; Use modus-themes-list-colors to see the modus face names
+  (setq! modus-themes-common-palette-overrides `((bg-main "gray98")
+                                                 (fg-main "gray10")
+                                                 (bg-region "gray90")
+                                                 (string green-warmer)
+                                                 ;; (bg-mode-line-active bg-dim)
+                                                 (bg-mode-line-active "gray90")
+                                                 ;; (border-mode-line-active bg-active)
+                                                 (border-mode-line-active "gray90")
                                                  (border-mode-line-inactive bg-mode-line-inactive)
-
+                                                 (bg-paren-match bg-magenta-intense)
+                                                 ;; lighten the magit diff bg colors
                                                  (bg-added bg-green-nuanced)
                                                  (bg-added-faint bg-green-nuanced)
                                                  (bg-added-refine bg-green-nuanced)
-
                                                  (bg-removed bg-red-nuanced)
                                                  (bg-removed-faint bg-red-nuanced)
                                                  (bg-removed-refine bg-red-nuanced)
-                                                 ;; (fg-diff)
+                                                 ,@modus-themes-preset-overrides-warmer)))
 
-                                                 ;;  use header colors of the intense preset
-                                                 ;; (bg-heading-0 unspecified)
-                                                 ;; (bg-heading-1 bg-magenta-nuanced)
-                                                 ;; (bg-heading-2 bg-red-nuanced)
-                                                 ;; (bg-heading-3 bg-blue-nuanced)
-                                                 ;; (bg-heading-4 bg-cyan-nuanced)
-                                                 ;; (bg-heading-5 bg-green-nuanced)
-                                                 ;; (bg-heading-6 bg-yellow-nuanced)
-                                                 ;; (bg-heading-7 bg-red-nuanced)
-                                                 ;; (bg-heading-8 bg-magenta-nuanced)
+(load-theme 'modus-operandi :no-confirm)
 
-                                                 ;; (overline-heading-0 unspecified)
-                                                 ;; (overline-heading-1 magenta-cooler)
-                                                 ;; (overline-heading-2 magenta-warmer)
-                                                 ;; (overline-heading-3 blue)
-                                                 ;; (overline-heading-4 cyan)
-                                                 ;; (overline-heading-5 green)
-                                                 ;; (overline-heading-6 yellow-cooler)
-                                                 ;; (overline-heading-7 red-cooler)
-                                                 ;; (overline-heading-8 magenta)
-
-                                                 (bg-paren-match bg-magenta-intense)
-
-                                                 ;; And expand the preset here.  Note that the ,@ works because
-                                                 ;; we use the backtick for this list, instead of a straight
-                                                 ;; quote.
-                                                 ;; ,@modus-themes-preset-overrides-cooler
-                                                 ;; ,@modus-themes-preset-overrides-faint
-                                                 ,@modus-themes-preset-overrides-warmer
-                                                 ;; ,@modus-themes-preset-overrides-intense
-                                                 ))
+;; (use-package! modus-themes
+;;   :config
+;;   (setq! modus-themes-custom-auto-reload t
+;;          modus-operandi-palette-overrides '((bg-main "gray98")
+;;                                             (fg-main "gray10")
+;;                                             (bg-hl-line "azure2")
+;;                                             (bg-region "gray90")
+;;                                             (fg-region :inherit)
+;;                                             (comment "gray50")
 
 
-  ;; :custom-face
-  ;; ;; '(mode-line ((t :background "gray90"
-  ;; ;;                 :box (:line-width 4
-  ;; ;;                       :color "gray90"))))
-  ;; ;; '(mode-line-inactive ((t :background "gray80"
-  ;; ;;                          :box (:line-width 4
-  ;; ;;                                :color "gray80"))))
-  ;; (magit-section-heading ((t :foreground "medium blue")))
-  ;; (magit-diff-file-heading ((t :foreground "gray10")))
-  ;; (cider-test-success-face ((t :foreground "gray90" :background "green")))
-  ;; (diff-hl-insert ((t :foreground "#6cc06c")))
-  (custom-set-faces
-   ;; '(mode-line ((t :background "gray90"
-   ;;                 :box (:line-width 4
-   ;;                       :color "gray90"))))
-   ;; '(mode-line-inactive ((t :background "gray80"
-   ;;                          :box (:line-width 4
-   ;;                                :color "gray80"))))
-   '(magit-section-heading ((t :foreground "medium blue")))
-   '(magit-diff-file-heading ((t :foreground "gray10")))
-   '(cider-test-success-face ((t :foreground "gray90" :background "green")))
-   ;; removes black box around diff insert indicator in fringe but may also make
-   ;; any characters in the fringe show up
-   '(diff-hl-insert ((t :foreground "#6cc06c")))
-   ;; Match clojure-mode
-   '(clojure-ts-keyword-face ((t :foreground "#721045" :weight medium)))
-   '(eglot-highlight-symbol-face ((t :background "lavender")))
-   ;; '(window-divider ((t :background "gray90" :color "gray90")))
-   ;; '(window-divider-first-pixel ((t :background "red" :color "red")))
-   ;; '(window-divider-last-pixel ((t :background "red" :color "red")))
-   ;; '(vertical-border ((t :background "red" :color "red")))
-   )
+;;                                             ;; (clojure-ts-keyword-face red)
+;;                                             ;; (comment red)
+;;                                             (fl-keyword maroon))
+;;          modus-themes-common-palette-overrides `(;; From the section "Make the mode line borderless"
+;;                                                  ;; (border-mode-line-active unspecified)
+;;                                                  ;; (border-mode-line-inactive unspecified)
+;;                                                  (border-mode-line-active bg-mode-line-active)
+;;                                                  (border-mode-line-inactive bg-mode-line-inactive)
 
-  (load-theme 'modus-operandi :no-confirm))
+;;                                                  (bg-added bg-green-nuanced)
+;;                                                  (bg-added-faint bg-green-nuanced)
+;;                                                  (bg-added-refine bg-green-nuanced)
 
-(use-package! ba
-  :load-path doom-user-dir)
+;;                                                  (bg-removed bg-red-nuanced)
+;;                                                  (bg-removed-faint bg-red-nuanced)
+;;                                                  (bg-removed-refine bg-red-nuanced)
+;;                                                  ;; (fg-diff)
 
-(use-package! banzai
-  :load-path doom-user-dir
-  :config
-  (add-hook 'after-save-hook 'auto-eval-sql-clj-on-hug-sql-edit)
-  (pendant-setup-key-bindings)
-  (banzai-at-work-setup-key-bindings))
+;;                                                  ;;  use header colors of the intense preset
+;;                                                  ;; (bg-heading-0 unspecified)
+;;                                                  ;; (bg-heading-1 bg-magenta-nuanced)
+;;                                                  ;; (bg-heading-2 bg-red-nuanced)
+;;                                                  ;; (bg-heading-3 bg-blue-nuanced)
+;;                                                  ;; (bg-heading-4 bg-cyan-nuanced)
+;;                                                  ;; (bg-heading-5 bg-green-nuanced)
+;;                                                  ;; (bg-heading-6 bg-yellow-nuanced)
+;;                                                  ;; (bg-heading-7 bg-red-nuanced)
+;;                                                  ;; (bg-heading-8 bg-magenta-nuanced)
 
-(use-package! doom-modeline
-  ;; :defer t
-  :config
+;;                                                  ;; (overline-heading-0 unspecified)
+;;                                                  ;; (overline-heading-1 magenta-cooler)
+;;                                                  ;; (overline-heading-2 magenta-warmer)
+;;                                                  ;; (overline-heading-3 blue)
+;;                                                  ;; (overline-heading-4 cyan)
+;;                                                  ;; (overline-heading-5 green)
+;;                                                  ;; (overline-heading-6 yellow-cooler)
+;;                                                  ;; (overline-heading-7 red-cooler)
+;;                                                  ;; (overline-heading-8 magenta)
+
+;;                                                  (bg-paren-match bg-magenta-intense)
+
+;;                                                  ;; Remove the border
+;;                                                  ;; (border-mode-line-active unspecified)
+;;                                                  ;; (border-mode-line-inactive unspecified)
+
+;;                                                  ;; And expand the preset here.  Note that the ,@ works because
+;;                                                  ;; we use the backtick for this list, instead of a straight
+;;                                                  ;; quote.
+;;                                                  ;; ,@modus-themes-preset-overrides-cooler
+;;                                                  ;; ,@modus-themes-preset-overrides-faint
+;;                                                  ,@modus-themes-preset-overrides-warmer
+;;                                                  ;; ,@modus-themes-preset-overrides-intense
+;;                                                  ))
+
+;; :custom-face
+;; ;; '(mode-line ((t :background "gray90"
+;; ;;                 :box (:line-width 4
+;; ;;                       :color "gray90"))))
+;; ;; '(mode-line-inactive ((t :background "gray80"
+;; ;;                          :box (:line-width 4
+;; ;;                                :color "gray80"))))
+;; (magit-section-heading ((t :foreground "medium blue")))
+;; (magit-diff-file-heading ((t :foreground "gray10")))
+;; (cider-test-success-face ((t :foreground "gray90" :background "green")))
+;; (diff-hl-insert ((t :foreground "#6cc06c")))
+
+;; (custom-set-faces
+;;  '(mode-line-active ((t :background "gray88"
+;;                         :box (:line-width 4
+;;                               :color "gray88"))))
+;;  '(mode-line-inactive ((t :background "gray80"
+;;                           :box (:line-width 4
+;;                                 :color "gray80"))))
+;;  '(magit-section-heading ((t :foreground "medium blue")))
+;;  '(magit-diff-file-heading ((t :foreground "gray10")))
+;;  '(cider-test-success-face ((t :foreground "gray90" :background "green")))
+;;  ;; removes black box around diff insert indicator in fringe but may also make
+;;  ;; any characters in the fringe show up
+;;  '(diff-hl-insert ((t :foreground "#6cc06c")))
+;;  ;; Match clojure-mode
+;;  '(clojure-ts-keyword-face ((t :foreground "#721045" :weight medium)))
+;;  '(eglot-highlight-symbol-face ((t :background "lavender")))
+;;  ;; '(window-divider ((t :background "gray90" :color "gray90")))
+;;  ;; '(window-divider-first-pixel ((t :background "red" :color "red")))
+;;  ;; '(window-divider-last-pixel ((t :background "red" :color "red")))
+;;  ;; '(vertical-border ((t :background "red" :color "red")))
+;;  )
+
+;; (load-theme 'modus-operandi :no-confirm))
+
+(after! doom-modeline
   (setq! doom-modeline-lsp nil
-         doom-modeline-time nil ;; Not necessary since doom-modeline respects display-time-mode
-         doom-modeline-height 20 ;; This gets overridden by the char size
+         ;; Not really necessary since doom-modeline respects display-time-mode
+         doom-modeline-time nil
+         doom-modeline-battery nil
+         ;; doom-modeline-height 20 ;; This gets overridden by the char size
          doom-modeline-repl nil
          doom-modeline-debug nil
          ;; all-the-icons-scale-factor 1.1
          ))
 
-(use-package! org
-  :config
+(after! org
   (setq! org-startup-folded 'fold))
 
-(use-package! flycheck
-  ;; :defer t
-  :config
-  (flycheck-define-checker python-ruff
-    "A Python syntax and style checker using the ruff utility.
-To override the path to the ruff executable, set
-`flycheck-python-ruff-executable'.
-See URL `http://pypi.python.org/pypi/ruff'."
-    :command ("ruff"
-              "--format=text"
-              (eval (when buffer-file-name
-                      (concat "--stdin-filename=" buffer-file-name)))
-              "-")
-    :standard-input t
-    :error-filter (lambda (errors)
-                    (let ((errors (flycheck-sanitize-errors errors)))
-                      (seq-map #'flycheck-flake8-fix-error-level errors)))
-    :error-patterns
-    ((warning line-start
-              (file-name) ":" line ":" (optional column ":") " "
-              (id (one-or-more (any alpha)) (one-or-more digit)) " "
-              (message (one-or-more not-newline))
-              line-end))
-    :modes python-mode)
+(add-hook 'js2-mode #'rainbow-mode)
 
-  (add-to-list 'flycheck-checkers 'python-ruff))
-
-(use-package! js2-mode
-  ;; js2-mode is the parent mode of rjsx-mode
-  ;; :defer t
-  :hook (js2-mode . rainbow-mode))
-
-(use-package! devdocs
-  ;; :defer t
-  :config
+(after! devdocs
   (map! :leader
         :map devdocs-mode-map
         :nv "d d" 'devdocs-lookup))
-
-(use-package! evil-matchit
-  :defer t
-  :config
-  (global-evil-matchit-mode 1))
 
 ;; clean up whitespace in prog modes
 ;; (add-hook 'prog-mode-hook #'ws-butler-mode)
@@ -338,54 +299,24 @@ See URL `http://pypi.python.org/pypi/ruff'."
 
 ;; (add-hook 'prog-mode-hook (lambda () (rainbow-delk)))
 
-(use-package! envrc
-  :config
-  (setq! envrc-global-mode 1)
-  (defun ba/envrc-allow-and-reload-all ()
-    (interactive)
-    (envrc-allow)
-    (envrc-reload-all)))
+(after! envrc
+  (setq envrc-global-mode 1))
 
-(use-package! yasnippet
-  :config
+(after! yasnippet
   ;; TODO: Should we set the doom-snippets-dir instead?
   (setq! +snippets-dir (expand-file-name "~/emacs/snippets")))
 
-
-(use-package! evil-collection
-  :config
-  (evil-collection-init 'package-list))
-
-(use-package! sql
-  :hook
-  (sql-mode . (lambda () (setq! devdocs-current-docs '("postgresql~16"))))
-  :config
-  (set-popup-rule! "^\*SQL" :ignore t)
-  (setq! sql-debug-send t
-         sql-send-terminator t))
-
-(use-package! sqlformat
-  :defer t
-  :commands (sqlformat sqlformat-buffer sqlformat-region)
-  ;; TODO: Probably better to set sqlformat-on-save-mode per project
-  ;; :hook (sql-mode . sqlformat-on-save-mode)
-  :init
-  (setq! sqlformat-command 'pgformatter
-         sqlformat-args '("-s2" "-g" "-u1")))
-
-;; (use-package! casual-dired
-;;   ;; :ensure t
-;;   :defer t
-;;   :map  dired-mode-map
-
+;; (use-package! evil-collection
 ;;   :config
-;;   (map! :map dired-mode-map
-;;         :m "?" 'casual-dired-tmenu)
+;;   (evil-collection-init 'package-list))
 
-;;   ;; :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu))
-;;   )
+(after! sql
+  (add-hook! 'sql-mode (lambda () (setq! devdocs-current-docs '("postgresql~16"))))
+  (set-popup-rule! "^\*SQL" :ignore t)
+  (setq sql-debug-send t
+        sql-send-terminator t))
 
-;; (use-package! eglot
+;; (after! eglot
 ;;   :defer t
 ;;   :config
 ;;   ;; eglot need extra time for the clojure-lsp to start
@@ -418,15 +349,16 @@ See URL `http://pypi.python.org/pypi/ruff'."
 ;;   ;;         :nv "h e" 'eldoc))
 ;;   )
 
-(use-package! lsp-mode
-  :defer t
-  :custom
-  (lsp-ui-sideline-mode nil)
-  (lsp-ui-sideline-enable nil)
-  (lsp-modeline-code-actions-enable nil)
-  (lsp-modeline-diagnostics-enable nil)
-  (lsp-modeline-workspace-status-enable nil)
+(after! lsp-mode
+  ;; :custom
+  ;; (lsp-ui-sideline-mode nil)
+  ;; (lsp-ui-sideline-enable nil)
+  ;; (lsp-modeline-code-actions-enable nil)
+  ;; (lsp-modeline-diagnostics-enable nil)
+  ;; (lsp-modeline-workspace-status-enable nil)
   ;; lsp-ui-mode nil
+  ;; lsp-auto-configure nil
+  ;; lsp-enable
   ;; lsp-headerline-breadcrumb-enable nil
   ;; lsp-lens-enable nil
   ;; lsp-signature-auto-activate t
@@ -434,7 +366,7 @@ See URL `http://pypi.python.org/pypi/ruff'."
 
 
   ;; TODO: Temporary disable lsp eldoc for performance reasons, mac only?
-  (lsp-eldoc-enable-hover nil)
+  (setq! lsp-eldoc-enable-hover nil)
   ;; lsp-eldoc-enable-hover t
   ;; lsp-eldoc-render-all t
 
@@ -445,7 +377,7 @@ See URL `http://pypi.python.org/pypi/ruff'."
   ;; Fix potential lockups
   ;; https://github.com/hlissner/doom-emacs/issues/4093
   ;; Update 11/17/2022: Disabled  b/c of "too many open files" error
-  (lsp-enable-file-watchers nil)
+  (setq! lsp-enable-file-watchers nil)
 
   ;; +format-with-lsp causes problems with undo in web-mode,
   ;; could also do (setq-hook! 'web-mode-hook +format-with-lsp nil)
@@ -455,13 +387,16 @@ See URL `http://pypi.python.org/pypi/ruff'."
 
   ;; It seems like the lsp client was still trying to use flake8 even
   ;; though its disabled in the custom settings
-  (lsp-pylsp-plugins-flake8-enabled nil)
-  (lsp-pylsp-plugins-mccabe-enabled nil)
-  (lsp-pylsp-plugins-pycodestyle-enabled nil)
-  (lsp-pylsp-plugins-pyflakes-enabled nil)
+  (setq! lsp-pylsp-plugins-flake8-enabled nil)
+  (setq! lsp-pylsp-plugins-mccabe-enabled nil)
+  (setq! lsp-pylsp-plugins-pycodestyle-enabled nil)
+  (setq! lsp-pylsp-plugins-pyflakes-enabled nil)
+
+  ;; Disable lsp-ui mode
+  (add-hook! 'prog-mode (lambda () (lsp-ui-mode nil)))
 
   ;; lsp-log-io t
-  :config
+  ;; :config
   (add-to-list 'lsp-disabled-clients 'semgrep-ls) ;; semgrep-ls kept crashing
   (add-to-list 'lsp-language-id-configuration '(web-mode . "html"))
 
@@ -516,37 +451,22 @@ See URL `http://pypi.python.org/pypi/ruff'."
   ;; (add-to-list '+company-backend-alist '(prog-mode :derived (:separate company-capf)))
   )
 
-
+;; Workaround for https://github.com/doomemacs/doomemacs/issues/8541
 (let ((lfile (concat doom-local-dir "straight/repos/transient/lisp/transient.el")))
   (if (file-exists-p lfile)
       (load lfile)))
 
-;; (use-package! transient)
-;; (use-package! magit)
-
-
 (after! magit
+  ;;   (add-hook! 'magit-pre-refresh . diff-hl-magit-pre-refresh)
+  ;;   (add-hook! 'magit-post-refresh . diff-hl-magit-post-refresh)
   (map! :map magit-mode-map
         :nv "z" 'magit-stash)
   ;; TODO: Was this changed to magit-section-disable-line-numbers
   ;; (setq! magit-disable-line-numbers nil)
+  ;; (setq! magit-git-debug t)
+  ;; remove some hooks from the magit status screen so it loads a bit faster
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   )
-
-;; (use-package! magit
-;;   ;; :defer t
-;;   ;; :after (with-editor transient)
-;;   ;; :after (with-editor transient)
-;;   :hook
-;;   (magit-pre-refresh . diff-hl-magit-pre-refresh)
-;;   (magit-post-refresh . diff-hl-magit-post-refresh)
-;;   :config
-;;   (map! :map magit-mode-map
-;;         :nv "z" 'magit-stash)
-;;   (setq! magit-disable-line-numbers nil)
-;;   ;; (setq! magit-git-debug t)
-;;   ;; remove some hooks from the magit status screen so it loads a bit faster
-;;   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-;;   )
 
 (after! diff-hl
   ;; Shows uncommitted changes in the fringe
@@ -555,62 +475,55 @@ See URL `http://pypi.python.org/pypi/ruff'."
 (after! treemacs
   (setq! treemacs-load-them "Idea"))
 
-(use-package! web-mode
-  :defer t
-  :init
+;; (use-package! flyover
+;;   :defer t
+;;   :hook (prog-mode . flyover-mode)
+;;   :config
+;;   (setq flyover-levels '(error warning info)  ; Show all levels
+;;         flyover-use-theme-colors t
+;;         flyover-display-mode 'show-only-on-same-line
+;;         ;; flyover-show-at-eol nil
+;;         ;; flyover-checkers '(flycheck flymake)
+;;         ;; flyover-checkers '(flymake)
+;;         ;; flyover-virtual-line-type 'straight-arrow
+;;         flyover-virtual-line-icon "──► ")
+;;   ;; (setq eglot-stay-out-of '(flymake))
+;;   )
+
+
+;; Flymake mode
+;; (setq flymake-show-diagnostics-at-end-of-line t
+;;       flymake-popon-mode -1)
+;; (after! flymake-mode
+;;   )
+;; (add-hook 'flymake-mode (lambda () (flymake-popon-mode -1)))
+;; (add-hook 'flymake-popon-mode (lambda () (flymake-popon-mode -1)))
+
+(after! web-mode
   (add-to-list 'auto-mode-alist '("\\.ftl.?\\'" . web-mode))
   ;; (add-to-list '+format-on-save-enabled-modes 'html-mode t)
-  :hook (web-mode . (lambda ()
-                      (rainbow-mode)
-                      (setq! +format-with-lsp nil)
-                      ;; (when (string= web-mode-engine "freemarker")
-                      ;;   (setq! comment-start "<#--" )
-                      ;;   (setq! comment-end "-->" ))
-                      ))
-
-  :config
   (add-to-list 'web-mode-engines-alist '("freemarker" . "\\.ftl.?\\'")))
 
-(use-package! vterm
-  ;; :defer t
-  :config
-  ;; override doom's default vterm popup rule
+(add-hook 'web-mode (lambda ()
+                      (rainbow-mode)
+                      (setq! +format-with-lsp nil)))
+
+(after! vterm
   (set-popup-rule! "^vterm" :ignore t)
   ;; Doom hides the modeline for vterm by default
   (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
   (map! :map vterm-mode-map
         :i [tab] 'vterm-send-tab
         "C-<escape>" 'vterm-send-escape)
-  (map!
-   :leader
-   :nv "o 1" (defun ba/switch-to-vterm-1 () (interactive) (ba/switch-to-vterm "vterm<1>"))
-   :nv "o 2" (defun ba/switch-to-vterm-2 () (interactive) (ba/switch-to-vterm "vterm<2>"))
-   :nv "o 3" (defun ba/switch-to-vterm-3 () (interactive) (ba/switch-to-vterm "vterm<3>"))
-   :nv "o 4" (defun ba/switch-to-vterm-4 () (interactive) (ba/switch-to-vterm "vterm<4>")))
+
   ;; Switch to normal mode when the process in a vterm buffer exits. The
   ;; lambda is required so that the arguments don't get passed to
   ;; evil-normal-state
   ;; (add-to-list 'vterm-exit-functions (lambda (&rest r) (evil-normal-state)))
   )
 
-(use-package! paren-face
-  :config
-  (global-paren-face-mode 1))
-
-(use-package! clojure-mode
-  :defer t
-  ;; :hook (clojure-mode . (lambda () (rainbow-delimiters-mode -1)))
-  ;; :hook (clojure-mode . (lambda ()
-  ;;                         (add-to-list 'safe-local-variable-values '(lsp-clojure-custom-server-command . "/home/brett/bin/clojure-lsp-emacs"))))
-  ;; (add-to-list 'safe-local-variable-values '(lsp-clojure-custom-server-command . "/home/brett/bin/clojure-lsp-emacs"))
-  :init
-  ;; (add-to-list 'safe-local-variable-values '(lsp-clojure-custom-server-command . "/home/brett/bin/clojure-lsp-emacs"))
-  ;; (add-to-list 'safe-local-variable-values '(lsp-clojure-custom-server-command . "/usr/bin/clojure-lsp"))
-
-  :hook
-  (clojure-mode . (lambda () (setq! devdocs-current-docs '("clojure~1.11"))))
-
-  :config
+;; clojure-mode
+(after! clojure-mode
   ;; Add cider-edit-jack-in-command to safe local variables list so we don't get a message
   ;; when this variable is in a projects dir locals.
   (add-to-list 'safe-local-variable-values '(cider-edit-jack-in-command . t))
@@ -632,12 +545,15 @@ See URL `http://pypi.python.org/pypi/ruff'."
                              1 font-lock-builtin-face)))
 
   ;; Don't use rainbow delimeters since we set the parens to a lighter color in the theme
-  (remove-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+  ;; (remove-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
   (map! :map clojure-mode-map
         :nv ">" 'sp-forward-slurp-sexp
         :nv "<" 'sp-forward-barf-sexp
         :nv ", n s" 'clojure-sort-ns))
+
+(add-hook 'clojure-mode (lambda ()
+                          (setq devdocs-current-docs '("clojure~1.11"))))
 
 ;; (use-package! clojure-ts-mode
 ;;   :config
@@ -649,30 +565,133 @@ See URL `http://pypi.python.org/pypi/ruff'."
 ;;         :nv ", n s" 'clojure-sort-ns)
 ;;   )
 
-(use-package! cider
+(after! cider
   ;; See https://github.com/practicalli/doom-emacs-config/blob/main/%2Bclojure.el
   ;; although some settings already incorporated into doom
   ;; :after '(clojure-mode clojure-ts-mode)
-  :after '(clojure-mode pendant)
-  :custom
-  (cider-show-error-buffer t)               ;'only-in-repl
-  (cider-use-xref nil "Use lsp")
-  (cider-print-fn 'puget "Pretty printing with sorted keys / set values")
-  (cider-result-overlay-position 'at-point "Results shown right after expression")
-  (cider-repl-buffer-size-limit 100 "Limit lines shown in REPL buffer")
-  (cider-repl-history-size 42)
-  (cider-enable-nrepl-jvmti-agent t "Start JVM with -Djdk.attach.allowAttachSelf")
-  (cider-download-java-sources t)
-  :config
-  ;; (after! cider
+  ;; :after (clojure-mode pendant)
+  ;; :custom
+  (setq! cider-show-error-buffer t)               ;'only-in-repl
+  (setq! cider-use-xref nil) ;; "Use lsp"
+  (setq! cider-print-fn 'puget) ;; "Pretty printing with sorted keys / set values"
+  (setq! cider-result-overlay-position 'at-point) ;; "Results shown right after expression"
+  (setq! cider-repl-buffer-size-limit 100) ;; "Limit lines shown in REPL buffer"
+  (setq! cider-repl-history-size 42)
+  (setq! cider-enable-nrepl-jvmti-agent t) ;; "Start JVM with -Djdk.attach.allowAttachSelf"
+  (setq! cider-download-java-sources t)
   ;;   (set-keymap-parent clojure-ts-mode-map clojure-mode-map)
   ;;   (set-keymap-parent clojure-ts-clojurescript-mode-map clojurescript-mode-map)
-  ;;   (set-keymap-parent clojure-ts-clojurec-mode-map clojurec-mode-map))
+  ;;   (set-keymap-parent clojure-ts-clojurec-mode-map clojurec-mode-map)
   )
 
-(use-package! evil-cleverparens
+(after! treesit
   ;; :defer t
-  :after '(clojure-mode clojure-ts-mode)
+  ;; :config
+  (add-to-list 'treesit-extra-load-path "/home/brett/.emacs.d/.local/cache/tree-sitter"))
+
+;;
+;; Custom packages, see ./packages.el
+;;
+
+(use-package! ba
+  :load-path doom-user-dir
+  :config
+  (map!
+   :leader
+   :nv "o 1" (defun ba/switch-to-vterm-1 () (interactive) (ba/switch-to-vterm "vterm<1>"))
+   :nv "o 2" (defun ba/switch-to-vterm-2 () (interactive) (ba/switch-to-vterm "vterm<2>"))
+   :nv "o 3" (defun ba/switch-to-vterm-3 () (interactive) (ba/switch-to-vterm "vterm<3>"))
+   :nv "o 4" (defun ba/switch-to-vterm-4 () (interactive) (ba/switch-to-vterm "vterm<4>"))))
+
+(use-package! banzai
+  :load-path doom-user-dir
+  :config
+  (add-hook 'after-save-hook 'auto-eval-sql-clj-on-hug-sql-edit)
+  (pendant-setup-key-bindings)
+  (banzai-at-work-setup-key-bindings))
+
+(use-package! claude-code-ide
+  ;; :defer-incrementally (transient)
+  :defer t
+  :config
+  ;; (setq claude-code-ide-terminal-backend 'eat)
+  ;; Optionally enable Emacs MCP tools
+  ;; TODO: Maybe this needs a hook to run in prog mode;
+  (claude-code-ide-emacs-tools-setup)
+  (map! :leader
+        :g "i c" 'claude-code-ide-menu))
+
+(use-package dir-config
+  ;;  :ensure t
+  :custom
+  (dir-config-file-names '(".dir-config.el"))
+  (dir-config-allowed-directories '("~/devel"))
+  :config
+  (dir-config-mode))
+
+(use-package! evil-matchit
+  :defer t
+  :config
+  (global-evil-matchit-mode 1))
+
+(use-package! sqlformat
+  :defer t
+  :commands (sqlformat sqlformat-buffer sqlformat-region)
+  ;; TODO: Probably better to set sqlformat-on-save-mode per project
+  ;; :hook (sql-mode . sqlformat-on-save-mode)
+  :init
+  (setq sqlformat-command 'pgformatter
+        sqlformat-args '("-s2" "-g" "-u1")))
+
+;; (use-package! casual-dired
+;;   ;; :ensure t
+;;   :defer t
+;;   :map  dired-mode-map
+
+;;   :config
+;;   (map! :map dired-mode-map
+;;         :m "?" 'casual-dired-tmenu)
+
+;;   ;; :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu))
+;;   )
+
+
+;; (use-package! smart-mode-line
+;;   :config
+;;   (sml/setup))
+
+;; (use-package! mini-modeline
+;;   :after (smart-mode-line)
+;;   :config
+;;   (setq mini-modeline-mode t
+;;         mini-modeline-display-gui-line nil
+;;         mini-modeline-enhance-visual t
+;;         ;; Hide minior modes from the mini modeline
+;;         rm-whitelist ""
+;;         mini-modeline-face-attr '(:background "gray95"))
+
+;; (setq rm-blacklist ""
+;;       ;; (format "^ \\(%s\\)$"
+;;       ;;         (mapconcat #'identity
+;;       ;;                    '("Fly.*" "Projectile.*" "PgLn" "ws" "Minimode" "WK" "better-jumper" "EGkj" "snipe"
+;;       ;;                      "GCMH" "wb" "DirCfg" "yas" "envrc[none]" "SP" "Outl" "ElDoc" "Apheleia")
+;;       ;;                    "\\|"))
+;;       )
+;;)
+;;
+;;
+;;
+;;
+
+(use-package parenthesis-face
+  :defer t
+  :after (:any clojure-mode clojure-ts-mode lisp-mode)
+  :hook (clojure-mode . parenthesis-face-mode)
+  :config
+  (custom-set-faces '(parenthesis-face ((t :foreground "gray60")))))
+
+
+(use-package evil-cleverparens
   :hook ((clojure-mode . evil-cleverparens-mode)
          (lisp-mode . evil-cleverparens-mode)
          (evil-cleverparens-mode . smartparens-strict-mode)
@@ -683,19 +702,14 @@ See URL `http://pypi.python.org/pypi/ruff'."
   :config
   (require 'evil-cleverparens-text-objects))
 
-(use-package! indent-bars
-  ;; :defer t
-  :custom
-  (indent-bars-treesit-support t))
+;; (use-package! indent-bars
+;;   ;; :defer t
+;;   :custom
+;;   (indent-bars-treesit-support t))
 
 ;; (use-package! inf-janet
 ;;   :config
 ;;   (setq! inf-janet-program "/usr/local/bin/janet"))
-
-(use-package! treesit
-  :defer t
-  :config
-  (add-to-list 'treesit-extra-load-path "/home/brett/.emacs.d/.local/cache/tree-sitter"))
 
 (use-package! nvm
   :defer t
@@ -703,24 +717,3 @@ See URL `http://pypi.python.org/pypi/ruff'."
                                              (let ((filename (expand-file-name ".nvmrc" (projectile-project-root))))
                                                (when (file-exists-p filename)
                                                  (nvm-use-for filename))))))
-
-(use-package! claude-code-ide
-  ;; :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
-  :defer-incrementally (transient)
-  :config
-  (map! :leader
-        :g "i c" 'claude-code-ide-menu)
-
-  (setq claude-code-ide-terminal-backend 'eat)
-  ;; Optionally enable Emacs MCP tools
-  ;; TODO: Maybe this needs a hook to run in prog mode;
-  (claude-code-ide-emacs-tools-setup)
-  )
-
-(use-package dir-config
-  ;;  :ensure t
-  :custom
-  (dir-config-file-names '(".dir-config.el"))
-  (dir-config-allowed-directories '("~/devel"))
-  :config
-  (dir-config-mode))

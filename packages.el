@@ -7,11 +7,21 @@
 ;; (package! builtin-package :disable t)
 (package! prettier-js)
 
-(package! paren-face :recipe (:host github :repo "tarsius/paren-face"))
+;; (package! paren-face :recipe (:host github :repo "tarsius/paren-face"))
+(package! parenthesis-face
+  :recipe (:host github
+           :repo "tarsius/paren-face"
+           :files ("parenthesis-face.el")))
+(package! bracket-face
+  :recipe (:host github
+           :repo "tarsius/paren-face"
+           :files ("bracket-face.el")))
+
 (package! evil-cleverparens)
 (package! evil-matchit)
 (package! modus-themes :recipe (:host github :repo "protesilaos/modus-themes"))
 (package! nvm :recipe (:host github :repo "rejeep/nvm.el"))
+(package! org-journal)
 
 (package! devdocs :recipe (:host github :repo "astoff/devdocs.el"))
 
@@ -46,8 +56,6 @@
            ;; :files ("*.el")
            ))
 
-(package! transient :pin "053d56e4de2dd78bf32f7af7ed5f289a91cdb6ac")
-(package! magit :pin "b828afbb4b45641998fb6483a08effb1efb214e1")
 
 ;; (package! mini-modeline
 ;;   :recipe (:host github

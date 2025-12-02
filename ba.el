@@ -8,8 +8,7 @@
     (hack-dir-local-variables-non-file-buffer)))
 
 (defun ba/reload-dir-locals-for-all-buffer-in-this-directory ()
-  "For every buffer with the same `default-directory` as the
-current buffer's, reload dir-locals."
+  "For every buffer with the same `default-directory` as the current buffer's, reload dir-locals."
   (interactive)
   (let ((dir default-directory))
     (dolist (buffer (buffer-list))
@@ -18,7 +17,7 @@ current buffer's, reload dir-locals."
         (ba/reload-dir-locals-for-current-buffer)))))
 
 (defun ba/switch-to-vterm (vterm-buffer-name)
-  "Switch to a vterm buffer if one exists else create one"
+  "Switch to a vterm buffer if one exists else create one."
   (interactive)
   (let* ((vterm-buffer-name (or vterm-buffer-name "vterm<1>"))
          (buffer-names
@@ -41,4 +40,17 @@ current buffer's, reload dir-locals."
 ;; TODO: Maybe we can do it by adding advice around  cider-popup-buffer-display
 (defun ba/assoc-cider-error-buffer-to-project ())
 
+(defun ba/xdg-open (path)
+  "Open a file at PATH with xdg-open."
+  (interactive "fPath:")
+  (shell-command (concat "xdg-open " path)))
+
+(after! envrc
+  (defun ba/envrc-allow-and-reload-all ()
+    (interactive)
+    (envrc-allow)
+    (envrc-reload-all)))
+
 (provide 'ba)
+
+;;; ba.el ends here
