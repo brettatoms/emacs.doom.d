@@ -534,6 +534,7 @@
 
   ;; Wrap comments past the 90th column
   (setq! fill-column 90)
+  (setq! cider-auto-mode nil)
 
   ;; Node: This was from Beacon but I'm leaving it here just in case
   ;; (put-clojure-indent 'defresolver :defn)
