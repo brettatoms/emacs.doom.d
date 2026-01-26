@@ -586,11 +586,6 @@
   ;;   (set-keymap-parent clojure-ts-clojurec-mode-map clojurec-mode-map)
   )
 
-(after! treesit
-  ;; :defer t
-  ;; :config
-  (add-to-list 'treesit-extra-load-path "/home/brett/.emacs.d/.local/cache/tree-sitter"))
-
 ;;
 ;; Custom packages, see ./packages.el
 ;;
