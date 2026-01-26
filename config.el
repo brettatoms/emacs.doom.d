@@ -16,6 +16,7 @@
 ;; Set platform specific variables
 (cond
  ((string-equal system-type "darwin")
+  (global-set-key (kbd "<pinch>") 'ignore) ;; disable accidental zoom from touchpad
   ;; This needs to be set for doom to use fd on Mac since doom adds some weird advice to
   ;; projectile-get-ext-command. Both of these commands should be found with
   ;; executable-find but for some reason they're nil.
