@@ -293,7 +293,7 @@
 
 ;; (load-theme 'modus-operandi :no-confirm))
 
-(after! doom-modeline
+(with-eval-after-load 'doom-modeline
   (setopt doom-modeline-lsp nil
           ;; Not really necessary since doom-modeline respects display-time-mode
           doom-modeline-time nil
@@ -304,12 +304,12 @@
           ;; all-the-icons-scale-factor 1.1
           ))
 
-(after! org
+(with-eval-after-load 'org
   (setopt org-startup-folded 'fold))
 
 (add-hook 'js2-mode #'rainbow-mode)
 
-(after! devdocs
+(with-eval-after-load 'devdocs
   (map! :leader
         :map devdocs-mode-map
         :nv "d d" 'devdocs-lookup))
@@ -323,10 +323,10 @@
 
 ;; (add-hook 'prog-mode-hook (lambda () (rainbow-delk)))
 
-(after! envrc
+(with-eval-after-load 'envrc
   (setq envrc-global-mode 1))
 
-(after! yasnippet
+(with-eval-after-load 'yasnippet
   ;; TODO: Should we set the doom-snippets-dir instead?
   (setopt +snippets-dir (expand-file-name "~/emacs/snippets")))
 
@@ -334,14 +334,13 @@
 ;;   :config
 ;;   (evil-collection-init 'package-list))
 
-(after! sql
-  (add-hook! 'sql-mode (lambda () (setq! devdocs-current-docs '("postgresql~16"))))
+(with-eval-after-load 'sql
   (add-hook! 'sql-mode (lambda () (setopt devdocs-current-docs '("postgresql~16"))))
   (set-popup-rule! "^\*SQL" :ignore t)
   (setq sql-debug-send t
         sql-send-terminator t))
 
-;; (after! eglot
+;; (with-eval-after-load 'eglot
 ;;   :defer t
 ;;   :config
 ;;   ;; eglot need extra time for the clojure-lsp to start
@@ -374,7 +373,7 @@
 ;;   ;;         :nv "h e" 'eldoc))
 ;;   )
 
-(after! lsp-mode
+(with-eval-after-load 'lsp-mode
   ;; :custom
   ;; (lsp-ui-sideline-mode nil)
   ;; (lsp-ui-sideline-enable nil)
@@ -481,7 +480,7 @@
   (if (file-exists-p lfile)
       (load lfile)))
 
-(after! magit
+(with-eval-after-load 'magit
   ;;   (add-hook! 'magit-pre-refresh . diff-hl-magit-pre-refresh)
   ;;   (add-hook! 'magit-post-refresh . diff-hl-magit-post-refresh)
   (map! :map magit-mode-map
@@ -493,15 +492,14 @@
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   )
 
-(after! diff-hl
+(with-eval-after-load 'diff-hl
   ;; Shows uncommitted changes in the fringe
   (global-diff-hl-mode 1))
 
-(after! treemacs
-  (setq! treemacs-load-them "Idea"))
+(with-eval-after-load 'treemacs
   (setopt treemacs-load-them "Idea"))
 
-;; (use-package! flyover
+;; (use-package flyover
 ;;   :defer t
 ;;   :hook (prog-mode . flyover-mode)
 ;;   :config
@@ -520,12 +518,12 @@
 ;; Flymake mode
 ;; (setq flymake-show-diagnostics-at-end-of-line t
 ;;       flymake-popon-mode -1)
-;; (after! flymake-mode
+;; (with-eval-after-load 'flymake-mode
 ;;   )
 ;; (add-hook 'flymake-mode (lambda () (flymake-popon-mode -1)))
 ;; (add-hook 'flymake-popon-mode (lambda () (flymake-popon-mode -1)))
 
-(after! web-mode
+(with-eval-after-load 'web-mode
   (add-to-list 'auto-mode-alist '("\\.ftl.?\\'" . web-mode))
   ;; (add-to-list '+format-on-save-enabled-modes 'html-mode t)
   (add-to-list 'web-mode-engines-alist '("freemarker" . "\\.ftl.?\\'")))
@@ -534,7 +532,7 @@
                       (rainbow-mode)
                       (setopt +format-with-lsp nil)))
 
-(after! vterm
+(with-eval-after-load 'vterm
   (set-popup-rule! "^vterm" :ignore t)
   ;; Doom hides the modeline for vterm by default
   (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
@@ -549,7 +547,7 @@
   )
 
 ;; clojure-mode
-(after! clojure-mode
+(with-eval-after-load 'clojure-mode
   ;; Add cider-edit-jack-in-command to safe local variables list so we don't get a message
   ;; when this variable is in a projects dir locals.
   (add-to-list 'safe-local-variable-values '(cider-edit-jack-in-command . t))
@@ -592,7 +590,7 @@
 ;;         :nv ", n s" 'clojure-sort-ns)
 ;;   )
 
-(after! cider
+(with-eval-after-load 'cider
   ;; See https://github.com/practicalli/doom-emacs-config/blob/main/%2Bclojure.el
   ;; although some settings already incorporated into doom
   ;; :after '(clojure-mode clojure-ts-mode)
