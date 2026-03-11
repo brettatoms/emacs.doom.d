@@ -330,7 +330,7 @@
   ;; TODO: Should we set the doom-snippets-dir instead?
   (setopt +snippets-dir (expand-file-name "~/emacs/snippets")))
 
-;; (use-package! evil-collection
+;; (use-package evil-collection
 ;;   :config
 ;;   (evil-collection-init 'package-list))
 
@@ -580,7 +580,7 @@
 (add-hook 'clojure-mode (lambda ()
                           (setq devdocs-current-docs '("clojure~1.11"))))
 
-;; (use-package! clojure-ts-mode
+;; (use-package clojure-ts-mode
 ;;   :config
 ;;   ;; There's an existing hook defined somewhere, not sure where, that calls calls cider
 ;;   ;; mode but tends to toggle it off it its already enabled
@@ -613,7 +613,7 @@
 ;; Custom packages, see ./packages.el
 ;;
 
-(use-package! ba
+(use-package ba
   :load-path doom-user-dir
   :config
   (map!
@@ -623,23 +623,26 @@
    :nv "o 3" (defun ba/switch-to-vterm-3 () (interactive) (ba/switch-to-vterm "vterm<3>"))
    :nv "o 4" (defun ba/switch-to-vterm-4 () (interactive) (ba/switch-to-vterm "vterm<4>"))))
 
-(use-package! banzai
+(use-package banzai
   :load-path doom-user-dir
   :config
   (add-hook 'after-save-hook 'auto-eval-sql-clj-on-hug-sql-edit)
   (pendant-setup-key-bindings)
   (banzai-at-work-setup-key-bindings))
 
-(use-package! claude-code-ide
-  ;; :defer-incrementally (transient)
-  :defer t
-  :config
-  ;; (setq claude-code-ide-terminal-backend 'eat)
-  ;; Optionally enable Emacs MCP tools
-  ;; TODO: Maybe this needs a hook to run in prog mode;
-  (claude-code-ide-emacs-tools-setup)
-  (map! :leader
-        :g "i c" 'claude-code-ide-menu))
+(use-package pi-coding-agent
+  :init (defalias 'pi 'pi-coding-agent))
+
+;; (use-package claude-code-ide
+;;   ;; :defer-incrementally (transient)
+;;   :defer t
+;;   :config
+;;   ;; (setq claude-code-ide-terminal-backend 'eat)
+;;   ;; Optionally enable Emacs MCP tools
+;;   ;; TODO: Maybe this needs a hook to run in prog mode;
+;;   (claude-code-ide-emacs-tools-setup)
+;;   (map! :leader
+;;         :g "i c" 'claude-code-ide-menu))
 
 (use-package dir-config
   ;;  :ensure t
@@ -649,12 +652,12 @@
   :config
   (dir-config-mode))
 
-(use-package! evil-matchit
+(use-package evil-matchit
   :defer t
   :config
   (global-evil-matchit-mode 1))
 
-(use-package! sqlformat
+(use-package sqlformat
   :defer t
   :commands (sqlformat sqlformat-buffer sqlformat-region)
   ;; TODO: Probably better to set sqlformat-on-save-mode per project
@@ -663,7 +666,7 @@
   (setq sqlformat-command 'pgformatter
         sqlformat-args '("-s2" "-g" "-u1")))
 
-;; (use-package! casual-dired
+;; (use-package casual-dired
 ;;   ;; :ensure t
 ;;   :defer t
 ;;   :map  dired-mode-map
@@ -676,11 +679,11 @@
 ;;   )
 
 
-;; (use-package! smart-mode-line
+;; (use-package smart-mode-line
 ;;   :config
 ;;   (sml/setup))
 
-;; (use-package! mini-modeline
+;; (use-package mini-modeline
 ;;   :after (smart-mode-line)
 ;;   :config
 ;;   (setq mini-modeline-mode t
@@ -722,16 +725,16 @@
   :config
   (require 'evil-cleverparens-text-objects))
 
-;; (use-package! indent-bars
+;; (use-package indent-bars
 ;;   ;; :defer t
 ;;   :custom
 ;;   (indent-bars-treesit-support t))
 
-;; (use-package! inf-janet
+;; (use-package inf-janet
 ;;   :config
 ;;   (setopt inf-janet-program "/usr/local/bin/janet"))
 
-(use-package! nvm
+(use-package nvm
   :defer t
   :hook (projectile-after-switch-project . (lambda ()
                                              (let ((filename (expand-file-name ".nvmrc" (projectile-project-root))))
