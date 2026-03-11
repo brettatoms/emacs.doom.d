@@ -149,31 +149,50 @@
 
       :nv "f o" 'ba/xdg-open)
 
-(after! modus-themes
-  :config
-  ;; Use modus-themes-list-colors to see the modus face names
-  (setq! modus-themes-common-palette-overrides `((bg-main "gray98")
-                                                 (fg-main "gray10")
-                                                 (bg-region "gray90")
-                                                 (string green-warmer)
-                                                 ;; (bg-mode-line-active bg-dim)
-                                                 (bg-mode-line-active "gray90")
-                                                 ;; (border-mode-line-active bg-active)
-                                                 (border-mode-line-active "gray90")
-                                                 (border-mode-line-inactive bg-mode-line-inactive)
-                                                 (bg-paren-match bg-magenta-intense)
-                                                 ;; lighten the magit diff bg colors
-                                                 (bg-added bg-green-nuanced)
-                                                 (bg-added-faint bg-green-nuanced)
-                                                 (bg-added-refine bg-green-nuanced)
-                                                 (bg-removed bg-red-nuanced)
-                                                 (bg-removed-faint bg-red-nuanced)
-                                                 (bg-removed-refine bg-red-nuanced)
-                                                 ,@modus-themes-preset-overrides-warmer)))
+;; (with-eval-after-load 'modus-themes
+;;   :config
+;;   ;; Use modus-themes-list-colors to see the modus face names
+;;   (setopt modus-themes-common-palette-overrides `((bg-main "gray98")
+;;                                                  (fg-main "gray10")
+;;                                                  (bg-region "gray90")
+;;                                                  (string green-warmer)
+;;                                                  ;; (bg-mode-line-active bg-dim)
+;;                                                  (bg-mode-line-active "gray90")
+;;                                                  ;; (border-mode-line-active bg-active)
+;;                                                  (border-mode-line-active "gray90")
+;;                                                  (border-mode-line-inactive bg-mode-line-inactive)
+;;                                                  (bg-paren-match bg-magenta-intense)
+;;                                                  ;; lighten the magit diff bg colors
+;;                                                  (bg-added bg-green-nuanced)
+;;                                                  (bg-added-faint bg-green-nuanced)
+;;                                                  (bg-added-refine bg-green-nuanced)
+;;                                                  (bg-removed bg-red-nuanced)
+;;                                                  (bg-removed-faint bg-red-nuanced)
+;;                                                  (bg-removed-refine bg-red-nuanced)
+;;                                                  ,@modus-themes-preset-overrides-warmer)))
 
-(load-theme 'modus-operandi :no-confirm)
+;; (load-theme 'modus-operandi :no-confirm)
+;; (load-theme 'modus-vivendi :no-confirm)
+(load-theme 'doom-spacegrey :no-confirm)
+;; (load-theme 'doom-one :no-confirm)
+;; (load-theme 'doom-oceanic-next :no-confirm)
+;; (load-theme 'doom-earl-grey :no-confirm)
+;; (load-theme 'meltbus :no-confirm)
+;; (load-theme 'doom-nord :no-confirm)
+;; (load-theme 'leuven :no-confirm)
+;; (load-theme 'modus-operandi-tinted :no-confirm)
 
-;; (use-package! modus-themes
+;; (set-face-attribute 'mode-line nil  :foreground "SkyBlue2"      :background "black")
+;; (turn-off-solaire-mode)
+(setq solaire-global-mode t)
+;; (setq doom-one-padded-modeline nil)
+
+;;  (set-face-attribute 'doom-modeline-evil-emacs-state nil  :foreground "SkyBlue2"      :background "black")
+;; (set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "#EEB422"       :background "black")
+;; (set-face-attribute 'doom-modeline-evil-visual-state nil :foreground "dark salmon"   :background "black")
+;; (set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "chartreuse3"   :background "white")
+
+;; (use-package modus-themes
 ;;   :config
 ;;   (setopt modus-themes-custom-auto-reload t
 ;;          modus-operandi-palette-overrides '((bg-main "gray98")
