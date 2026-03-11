@@ -29,50 +29,54 @@
         mac-control-modifier 'meta
         mac-option-modifier 'meta)))
 
-(setq! doom-font "CommitMono:size=18"
-       ;; doom-theme 'modus-operandi
-       inhibit-startup-screen t
-       doom-localleader-key ","
-       doom-snippets-dir (expand-file-name "~/emacs/snippets")
+;; (set-frame-font  "Maple Mono:size=18")
+;; (set-frame-font  "CommitMono:size=18")
 
-       ;; Disable workspace switching for projects to allow us to have files open
-       ;; from different projects in the same frame.
-       +workspaces-on-switch-project-behavior nil
+(setopt doom-font "CommitMono:size=18"
 
-       ;; TODO: trying to remove annoying messsage when killing buffers not in
-       ;; perspective....maybe best we just disable perspective mode
-       persp-autokill-buffer-on-remove 'dont-ask-kill-weak
+        ;; doom-theme 'modus-operandi
+        inhibit-startup-screen t
+        doom-localleader-key ","
+        doom-snippets-dir (expand-file-name "~/emacs/snippets")
 
-       ;; The indexing method can't be 'alien if we want to sort by recently-active
-       projectile-indexing-method 'hybrid
-       projectile-sort-order 'recently-active
+        ;; Disable workspace switching for projects to allow us to have files open
+        ;; from different projects in the same frame.
+        +workspaces-on-switch-project-behavior nil
 
-       ;; ws-butler-global-mode t
-       enable-local-variables t
+        ;; TODO: trying to remove annoying messsage when killing buffers not in
+        ;; perspective....maybe best we just disable perspective mode
+        persp-autokill-buffer-on-remove 'dont-ask-kill-weak
 
-       ;; Set jit-lock-defer-time to 0 to defer fontification until there is not
-       ;; pending input.
-       jit-lock-defer-time 0
+        ;; The indexing method can't be 'alien if we want to sort by recently-active
+        projectile-indexing-method 'hybrid
+        projectile-sort-order 'recently-active
 
-       ;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces
-       ;; cider-clojure-cli-global-options "-J-XX:-OmitStackTraceInFastThrow"
+        ;; ws-butler-global-mode t
+        enable-local-variables t
 
-       auth-sources '("~/.authinfo")
+        ;; Set jit-lock-defer-time to 0 to defer fontification until there is not
+        ;; pending input.
+        jit-lock-defer-time 0
 
-       evil-escape-key-sequence "kj"
+        ;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces
+        ;; cider-clojure-cli-global-options "-J-XX:-OmitStackTraceInFastThrow"
 
-       ;; For faster rending in large files
-       bidi-paragraph-direction 'left-to-right
-       bidi-inhibit-bpa t
-       global-so-long-mode 1
+        auth-sources '("~/.authinfo")
 
-       ;; Always create a new buffer for an async shell comamnd if the default buffer
-       ;; has a process attached.
-       async-shell-command-buffer 'new-buffer
+        evil-escape-key-sequence "kj"
 
-       ;; Number of lines from the edge of the buffer to start scrolling
-       ;; scroll-margin 4
-       )
+        ;; For faster rending in large files
+        bidi-paragraph-direction 'left-to-right
+        bidi-inhibit-bpa t
+        global-so-long-mode 1
+
+        ;; Always create a new buffer for an async shell comamnd if the default buffer
+        ;; has a process attached.
+        async-shell-command-buffer 'new-buffer
+
+        ;; Number of lines from the edge of the buffer to start scrolling
+        ;; scroll-margin 4
+        )
 
 ;; allow saving the buffer in insert mode without leaving insert mode
 (map! "C-x s" 'save-buffer)
@@ -171,7 +175,7 @@
 
 ;; (use-package! modus-themes
 ;;   :config
-;;   (setq! modus-themes-custom-auto-reload t
+;;   (setopt modus-themes-custom-auto-reload t
 ;;          modus-operandi-palette-overrides '((bg-main "gray98")
 ;;                                             (fg-main "gray10")
 ;;                                             (bg-hl-line "azure2")
@@ -271,18 +275,18 @@
 ;; (load-theme 'modus-operandi :no-confirm))
 
 (after! doom-modeline
-  (setq! doom-modeline-lsp nil
-         ;; Not really necessary since doom-modeline respects display-time-mode
-         doom-modeline-time nil
-         doom-modeline-battery nil
-         ;; doom-modeline-height 20 ;; This gets overridden by the char size
-         doom-modeline-repl nil
-         doom-modeline-debug nil
-         ;; all-the-icons-scale-factor 1.1
-         ))
+  (setopt doom-modeline-lsp nil
+          ;; Not really necessary since doom-modeline respects display-time-mode
+          doom-modeline-time nil
+          doom-modeline-battery nil
+          ;; doom-modeline-height 20 ;; This gets overridden by the char size
+          doom-modeline-repl nil
+          doom-modeline-debug nil
+          ;; all-the-icons-scale-factor 1.1
+          ))
 
 (after! org
-  (setq! org-startup-folded 'fold))
+  (setopt org-startup-folded 'fold))
 
 (add-hook 'js2-mode #'rainbow-mode)
 
@@ -305,7 +309,7 @@
 
 (after! yasnippet
   ;; TODO: Should we set the doom-snippets-dir instead?
-  (setq! +snippets-dir (expand-file-name "~/emacs/snippets")))
+  (setopt +snippets-dir (expand-file-name "~/emacs/snippets")))
 
 ;; (use-package! evil-collection
 ;;   :config
@@ -313,6 +317,7 @@
 
 (after! sql
   (add-hook! 'sql-mode (lambda () (setq! devdocs-current-docs '("postgresql~16"))))
+  (add-hook! 'sql-mode (lambda () (setopt devdocs-current-docs '("postgresql~16"))))
   (set-popup-rule! "^\*SQL" :ignore t)
   (setq sql-debug-send t
         sql-send-terminator t))
@@ -321,7 +326,7 @@
 ;;   :defer t
 ;;   :config
 ;;   ;; eglot need extra time for the clojure-lsp to start
-;;   (setq! eglot-connect-timeout 45)
+;;   (setopt eglot-connect-timeout 45)
 ;;   (add-hook
 ;;    'eglot-managed-mode-hook
 ;;    (lambda ()
@@ -367,7 +372,7 @@
 
 
   ;; TODO: Temporary disable lsp eldoc for performance reasons, mac only?
-  (setq! lsp-eldoc-enable-hover nil)
+  (setopt lsp-eldoc-enable-hover nil)
   ;; lsp-eldoc-enable-hover t
   ;; lsp-eldoc-render-all t
 
@@ -378,7 +383,7 @@
   ;; Fix potential lockups
   ;; https://github.com/hlissner/doom-emacs/issues/4093
   ;; Update 11/17/2022: Disabled  b/c of "too many open files" error
-  (setq! lsp-enable-file-watchers nil)
+  (setopt lsp-enable-file-watchers nil)
 
   ;; +format-with-lsp causes problems with undo in web-mode,
   ;; could also do (setq-hook! 'web-mode-hook +format-with-lsp nil)
@@ -388,10 +393,10 @@
 
   ;; It seems like the lsp client was still trying to use flake8 even
   ;; though its disabled in the custom settings
-  (setq! lsp-pylsp-plugins-flake8-enabled nil)
-  (setq! lsp-pylsp-plugins-mccabe-enabled nil)
-  (setq! lsp-pylsp-plugins-pycodestyle-enabled nil)
-  (setq! lsp-pylsp-plugins-pyflakes-enabled nil)
+  (setopt lsp-pylsp-plugins-flake8-enabled nil)
+  (setopt lsp-pylsp-plugins-mccabe-enabled nil)
+  (setopt lsp-pylsp-plugins-pycodestyle-enabled nil)
+  (setopt lsp-pylsp-plugins-pyflakes-enabled nil)
 
   ;; Disable lsp-ui mode
   (add-hook! 'prog-mode (lambda () (lsp-ui-mode nil)))
@@ -401,7 +406,7 @@
   (add-to-list 'lsp-disabled-clients 'semgrep-ls) ;; semgrep-ls kept crashing
   (add-to-list 'lsp-language-id-configuration '(web-mode . "html"))
 
-  ;; (setq! lsp-pylsp-server-command '("pylsp" "--verbose"))
+  ;; (setopt lsp-pylsp-server-command '("pylsp" "--verbose"))
 
   (lsp-register-custom-settings
    '(("pylsp.plugins.black.enabled" t t)
@@ -445,10 +450,10 @@
 
   ;;   ;; (add-hook 'web-mode-hook (lambda ()
   ;;   ;;                            (rainbow-mode)
-  ;;   ;;                            (setq! +format-with-lsp nil)))
+  ;;   ;;                            (setopt +format-with-lsp nil)))
 
   ;; Don't include snippets in completions by default.
-  ;; (setq! +lsp-company-backends 'company-capf)
+  ;; (setopt +lsp-company-backends 'company-capf)
   ;; (add-to-list '+company-backend-alist '(prog-mode :derived (:separate company-capf)))
   )
 
@@ -463,8 +468,8 @@
   (map! :map magit-mode-map
         :nv "z" 'magit-stash)
   ;; TODO: Was this changed to magit-section-disable-line-numbers
-  ;; (setq! magit-disable-line-numbers nil)
-  ;; (setq! magit-git-debug t)
+  ;; (setopt magit-disable-line-numbers nil)
+  ;; (setopt magit-git-debug t)
   ;; remove some hooks from the magit status screen so it loads a bit faster
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   )
@@ -475,6 +480,7 @@
 
 (after! treemacs
   (setq! treemacs-load-them "Idea"))
+  (setopt treemacs-load-them "Idea"))
 
 ;; (use-package! flyover
 ;;   :defer t
@@ -507,7 +513,7 @@
 
 (add-hook 'web-mode (lambda ()
                       (rainbow-mode)
-                      (setq! +format-with-lsp nil)))
+                      (setopt +format-with-lsp nil)))
 
 (after! vterm
   (set-popup-rule! "^vterm" :ignore t)
@@ -533,8 +539,8 @@
   ;;(add-to-list 'safe-local-variable-values '(lsp-clojure-custom-server-command . "/home/brett/bin/clojure-lsp-emacs"))
 
   ;; Wrap comments past the 90th column
-  (setq! fill-column 90)
-  (setq! cider-auto-mode nil)
+  (setopt fill-column 90)
+  (setopt cider-auto-mode t)
 
   ;; Node: This was from Beacon but I'm leaving it here just in case
   ;; (put-clojure-indent 'defresolver :defn)
@@ -573,14 +579,14 @@
   ;; :after '(clojure-mode clojure-ts-mode)
   ;; :after (clojure-mode pendant)
   ;; :custom
-  (setq! cider-show-error-buffer t)               ;'only-in-repl
-  (setq! cider-use-xref nil) ;; "Use lsp"
-  (setq! cider-print-fn 'puget) ;; "Pretty printing with sorted keys / set values"
-  (setq! cider-result-overlay-position 'at-point) ;; "Results shown right after expression"
-  (setq! cider-repl-buffer-size-limit 100) ;; "Limit lines shown in REPL buffer"
-  (setq! cider-repl-history-size 42)
-  (setq! cider-enable-nrepl-jvmti-agent t) ;; "Start JVM with -Djdk.attach.allowAttachSelf"
-  (setq! cider-download-java-sources t)
+  (setopt cider-show-error-buffer t)               ;'only-in-repl
+  (setopt cider-use-xref nil) ;; "Use lsp"
+  (setopt cider-print-fn 'puget) ;; "Pretty printing with sorted keys / set values"
+  (setopt cider-result-overlay-position 'at-point) ;; "Results shown right after expression"
+  (setopt cider-repl-buffer-size-limit 100) ;; "Limit lines shown in REPL buffer"
+  (setopt cider-repl-history-size 42)
+  (setopt cider-enable-nrepl-jvmti-agent t) ;; "Start JVM with -Djdk.attach.allowAttachSelf"
+  (setopt cider-download-java-sources t)
   ;;   (set-keymap-parent clojure-ts-mode-map clojure-mode-map)
   ;;   (set-keymap-parent clojure-ts-clojurescript-mode-map clojurescript-mode-map)
   ;;   (set-keymap-parent clojure-ts-clojurec-mode-map clojurec-mode-map)
@@ -706,7 +712,7 @@
 
 ;; (use-package! inf-janet
 ;;   :config
-;;   (setq! inf-janet-program "/usr/local/bin/janet"))
+;;   (setopt inf-janet-program "/usr/local/bin/janet"))
 
 (use-package! nvm
   :defer t
